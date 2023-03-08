@@ -37,10 +37,7 @@ const lambdaHandler: lambda.ValidatedAPIGatewayProxyEventHandler<
     .promise()
     .catch((error) => ({ Item: error }));
 
-  return lambda.formatJSONResponse(
-    { pk: `item#${todoId}`, todo: result.Item },
-    201
-  );
+  return lambda.formatJSONResponse({ todo: result.Item }, 201);
 };
 
 export const handler = lambda.middify(lambdaHandler);
