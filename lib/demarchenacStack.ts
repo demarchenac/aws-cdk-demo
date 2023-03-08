@@ -6,6 +6,7 @@ import { Table } from "@constructs/table";
 import { CreateAccountFunction } from "@constructs/functions/createAccount";
 import { AddTodoFunction } from "@constructs/functions/addTodo";
 import { GetAllTodosFunction } from "@constructs/functions/getAllTodos";
+import { GetTodoFunction } from "@constructs/functions/getTodo";
 
 type DemarchenacStackProps = StackProps & {
   apiStageName: string;
@@ -38,6 +39,11 @@ export class DemarchenacStack extends Stack {
     });
 
     new GetAllTodosFunction(this, "get-all-todos@demarchenac-api-demo", {
+      todoTable,
+      apiGateway,
+    });
+
+    new GetTodoFunction(this, "get-todo@demarchenac-api-demo", {
       todoTable,
       apiGateway,
     });

@@ -7,21 +7,27 @@ import type {
   Handler,
 } from "aws-lambda";
 
-export type ValidatedAPIGatewayProxyEvent<T> = Omit<
+export type ValidatedAPIGatewayProxyEvent<TBody, TUrlParams> = Omit<
   APIGatewayProxyEvent,
-  "body"
+  "body" | "pathParameters"
 > & {
   rawBody: string;
-  body: T;
+  body: TBody;
+} & {
+  pathParameters: TUrlParams;
 };
 
-export type ValidatedAPIGatewayProxyEventHandler<T> = Handler<
-  ValidatedAPIGatewayProxyEvent<T>,
+export type ValidatedAPIGatewayProxyEventHandler<
+  TBody,
+  TUrlParams = null
+> = Handler<
+  ValidatedAPIGatewayProxyEvent<TBody, TUrlParams>,
   APIGatewayProxyResult
 >;
 
-export const middify = <T>(handler: ValidatedAPIGatewayProxyEventHandler<T>) =>
-  middy(handler).use(httpHeaderNormalizer()).use(jsonBodyParser());
+export const middify = <TBody, TUrlParams>(
+  handler: ValidatedAPIGatewayProxyEventHandler<TBody, TUrlParams>
+) => middy(handler).use(httpHeaderNormalizer()).use(jsonBodyParser());
 
 export const formatJSONResponse = (
   response: Record<string, unknown>,
