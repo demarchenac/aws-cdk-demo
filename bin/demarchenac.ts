@@ -9,8 +9,8 @@ const app = new App();
 
 new DemarchenacStack(app, "dev", {
   env: {
-    account: "279505110089", // replace with your AWS Account ID or use process.env
-    region: "us-east-1",
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION,
   },
   apiStageName: "dev",
 });
