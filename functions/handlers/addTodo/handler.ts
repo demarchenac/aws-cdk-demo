@@ -13,14 +13,14 @@ const lambdaHandler: lambda.ValidatedAPIGatewayProxyEventHandler<
     body: { title, description },
   } = event;
 
-  const todoId = "todo#" + generateId();
+  const todoId = "todo~" + generateId();
 
   await ddb
     .put({
       TableName: tableName,
       Item: {
-        pk: `item#${todoId}`,
-        sk: `item#${todoId}`,
+        pk: `item~${todoId}`,
+        sk: `item~${todoId}`,
         insertedAt: Date.now(),
         completed: false,
         title,
@@ -32,7 +32,7 @@ const lambdaHandler: lambda.ValidatedAPIGatewayProxyEventHandler<
   const result = await ddb
     .get({
       TableName: tableName,
-      Key: { pk: `item#${todoId}`, sk: `item#${todoId}` },
+      Key: { pk: `item~${todoId}`, sk: `item~${todoId}` },
     })
     .promise()
     .catch((error) => ({ Item: error }));
