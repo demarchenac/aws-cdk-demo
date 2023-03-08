@@ -8,6 +8,7 @@ import { AddTodoFunction } from "@constructs/functions/addTodo";
 import { GetAllTodosFunction } from "@constructs/functions/getAllTodos";
 import { GetTodoFunction } from "@constructs/functions/getTodo";
 import { UpdateTodoFunction } from "@constructs/functions/updateTodo";
+import { DeleteTodoFunction } from "@constructs/functions/deleteTodo";
 
 type DemarchenacStackProps = StackProps & {
   apiStageName: string;
@@ -54,6 +55,12 @@ export class DemarchenacStack extends Stack {
 
     // [PUT] /todos/{todoId}
     new UpdateTodoFunction(this, "update-todo@demarchenac-api-demo", {
+      todoTable,
+      apiGateway,
+    });
+
+    // [DELETE] /todos/{todoId}
+    new DeleteTodoFunction(this, "delete-todo@demarchenac-api-demo", {
       todoTable,
       apiGateway,
     });
